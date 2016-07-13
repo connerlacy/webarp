@@ -38,13 +38,12 @@ $(function()
 				bx += (kWidth + kMargin);
 			}
 			
-			console.log(bx);
-			
 			// This may look add due to shape origins defined by their centers
 			keyRects.push( two.makeRectangle(bx + offsetX + kWidth/2, y - wkHeight/2 + bkHeight/2 + offsetY, kWidth, bkHeight) );
 			keyRects[i].fill = "black";
 			blackLayer.add(keyRects[i]);
 			keyStates[keyRects[i].id + "_color"] = "black";
+			keyStates[keyRects[i].id + "_index"] = i;
 	  	}
 	  	else
 	  	{
@@ -55,6 +54,7 @@ $(function()
 		 	keyRects[i].fill = "white";
 		 	whiteLayer.add(keyRects[i]);
 		 	keyStates[keyRects[i].id + "_color"] = "white";
+		 	keyStates[keyRects[i].id + "_index"] = i;
 	  	}
 	  
 	  	keyStates[keyRects[i].id + "_state"] = false;
@@ -77,8 +77,21 @@ function keyClicked(e)
 {
 	var key = e.target;
 	keyStates[key.id + "_state"] = !keyStates[key.id + "_state"];
-	alert("STATE: " + keyStates[key.id + "_state"]);
-	//alert("num " + key.numm);
+	
+	console.log(key.id + " " + keyStates[key.id + "_index"] + " : " + keyStates[key.id + "_state"]);
+	
+	if(keyStates[key.id + "_state"])
+	{
+		keyRects[keyStates[key.id + "_index"]].fill = "orangered";
+	}
+	else
+	{
+		keyRects[keyStates[key.id + "_index"]].fill = keyStates[key.id + "_color"];
+	}
+	
+	//two.update();
+
+
 }
 
 function Key(num)
